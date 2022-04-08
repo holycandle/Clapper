@@ -1,11 +1,11 @@
 # Clapper
 
 ## 介绍
-_Clapper_ 持续更新中。
+***Clapper*** 持续更新中。
 
 ## 更新日志
 ### Version 1.0.0
-*Clapper* 诞生了，由C语言编写    
+***Clapper*** 诞生了，由C语言编写    
 
 ### Version 1.1.0
 1.增加新行为：祈祷，忏悔    
