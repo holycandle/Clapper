@@ -5,7 +5,7 @@ _Clapper_ 持续更新中。
 
 ## 更新日志
 ### Version 1.0.0
-    1. _Clapper_ 诞生了，由C语言编写
+    1._Clapper_ 诞生了，由C语言编写
 
 ### Version 1.1.0
     1.增加新行为：祈祷，忏悔
