@@ -6,7 +6,8 @@
 * **Gitee** 与 **Github** 同步更新中     
 [查看 **Github** 上的 ***Clapper*** ](https://github.com/2624498362/Clapper)    
 [查看 **Gitee** 上的 ***Clapper*** ](https://gitee.com/holycandle/clapper)   
-[查看 **itch.io** 上的 ***Clapper*** 发行版](https://holycandle.itch.io/clapper)   
+* 已发布在 **itch.io** 上
+[查看 **itch.io** 上的 ***Clapper*** ](https://holycandle.itch.io/clapper)   
 
 
 ## 使用说明
