@@ -31,6 +31,13 @@
 [查看Clapper 2.0.0](https://gitee.com/holycandle/clapper/tree/master/Clapper%202.0.0)    
 
 ### Version 2.0.1（2022.4.9）    
-* 修复了“忏悔”时旁白描述出现“生命值加1”的bug
-* 修复了计算机、玩家胜率异常的bug
+* 修复了“忏悔”时旁白描述出现“生命值加1”的bug    
+* 修复了计算机、玩家胜率异常的bug    
+* 修复了计算机、玩家一起“祈祷”时无任何作用的bug    
+* 修复了计算机直接使用“忏悔”的bug    
+* 修复了旁白一直触发|上帝已死|的bug    
+* 可以为自己的角色取名    
+* 退出游戏先回到菜单栏    
+[查看Clapper 2.0.1](https://gitee.com/holycandle/clapper/tree/master/Clapper%202.0.1)    
+
 
