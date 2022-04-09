@@ -12,7 +12,8 @@
 
 ## 使用说明
 * ***Clapper*** 文件夹有可执行文件(.exe)、VS项目文件(.sln)、具体源代码(.cpp)以及头文件(.h)    
-* 只体验游戏则下载exe文件即可    
+* 体验游戏~~bug~请下载发行版    
+  或在 **itch.io** 下载:[查看 **itch.io** 上的 ***Clapper*** ](https://holycandle.itch.io/clapper)   
 * 欢迎提出建议与修改
 
 ## 更新日志
