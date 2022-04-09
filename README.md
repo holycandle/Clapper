@@ -1,16 +1,16 @@
 # ***Clapper***
 
 ## 介绍
-* ***Clapper*** 是由 **C++** 编写的小游戏    
-* ***Clapper***名于clap，源于生活    
-* ***Clapper*** 持续更新中      
+* 是由 **C++** 编写的小游戏    
+* 名于clap，源于生活    
+* **Gitee** 与 **Github** 同步更新中~~      
 [查看 **Github** 上的 ***Clapper*** ](https://github.com/2624498362/Clapper)    
 [查看 **Gitee** 上的 ***Clapper*** ](https://gitee.com/holycandle/clapper)    
 
 
 ## 使用说明
 * 每个***Clapper***版本拥有独立一个文件夹    
-* 文件夹有可执行文件、项目文件、具体源代码以及头文件    
+* 文件夹有可执行文件(.exe)、VS项目文件(.sln)、具体源代码(.cpp)以及头文件(.h)    
 * 只体验游戏则下载exe文件即可    
 * 欢迎提出建议与修改
 
