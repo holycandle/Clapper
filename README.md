@@ -1,6 +1,8 @@
 # Clapper
 
 ## 介绍
+* ***Clapper*** 是由C++编写的小游戏    
+* ***Clapper***名于clap，源于生活    
 * ***Clapper*** 持续更新中    
 [Github上的***Clapper***](https://github.com/2624498362/Clapper)    
 
