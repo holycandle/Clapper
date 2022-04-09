@@ -1,7 +1,7 @@
 # ***Clapper***
 
 ## 项目介绍
-* 由 **C++** 编写的小游戏    
+* 一个由 **C++** 编写的小游戏    
 * 名于clap，源于生活    
 * **Gitee** 与 **Github** 同步更新中     
 [查看 **Github** 上的 ***Clapper*** ](https://github.com/2624498362/Clapper)    
