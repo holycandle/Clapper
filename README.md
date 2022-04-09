@@ -1,7 +1,8 @@
 # Clapper
 
 ## 介绍
-* ***Clapper*** 持续更新中
+* ***Clapper*** 持续更新中    
+[Github上的***Clapper***](https://github.com/2624498362/Clapper)    
 
 ## 使用说明
 * 每个***Clapper***版本拥有独立一个文件夹    
