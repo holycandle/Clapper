@@ -1,271 +1,306 @@
-//¶¨Òå
+//å®šä¹‰
 #include "define.h"
 #include <iostream>
 #include <ctime>
 #include <string>
 #include <windows.h>
 #include <iomanip>
+#include <cctype>
+#include <random>
 
 using namespace std;
 
 int Whole = 1, Round = 1;
 float win_round = 0.0;
-//¶¨Òå¾ÖÊı¡¢»ØºÏÊı¡¢Íæ¼ÒÊ¤Àû¾ÖÊı
-Hero COM ("Com");
-Hero MY;
+//å®šä¹‰å±€æ•°ã€å›åˆæ•°ã€ç©å®¶èƒœåˆ©å±€æ•°
+default_random_engine e((unsigned int)time(NULL));
 
-//¶ÔµçÄÔ¡¢Íæ¼Òµµ°¸³õÊ¼¶¨Òå
+Action_inf Com, Player,First_act_inf;
+Hero COM ("Com",Com.Rec,Com);
+Hero PLAYER ("\0",Player.Rec,Player);
+Hero First_hero("\0", First_act_inf.Rec, First_act_inf);
+//å¯¹ç”µè„‘ã€ç©å®¶æ¡£æ¡ˆåˆå§‹å®šä¹‰
 
-Hero::Hero(string _name, int _life, Action& _act, int _power, int _crit_rate, int _crit_checker,
+//äººç‰©çš„æ„é€ å‡½æ•°
+Hero::Hero(string _name, Action& _act, Action_inf& _act_inf, int _life, int _power, int _crit_rate, int _crit_checker,
 	int _crit_plus, float _win_rate, unsigned int _pra_time, bool _rep_note)
 {
 	name = _name;
-	life = _life;
 	act = _act;
+	act_inf = _act_inf;
+	life = _life;
 	power = _power;
 	crit_rate = _crit_rate;
 	crit_checker = _crit_checker;
 	crit_plus = _crit_plus;
 	win_rate = _win_rate;
-	pra_time = _pra_time;
+	pra = _pra_time;
 	rep_note = _rep_note;
 }
 
-int Menu(void) //´òÓ¡²Ëµ¥
+//æ‰“å°èœå•
+int Menu(void) 
 {
 	int choice;
 	do {
 		cout << "        *************************          " << endl;
-		cout << "        *        ²Ë µ¥ À¸       *          " << endl;
-		cout << "        *     1.¿ª Ê¼ ÓÎ Ï·     *          " << endl;
-		cout << "        *     2.ÓÎ Ï· Íæ ·¨     *          " << endl;
-		cout << "        *     3.ÓÎ Ï· Í¼ ¼ø     *          " << endl;
-		cout << "        *     4.ÖÆ ×÷ ÈË Ô±     *          " << endl;
-		cout << "        *     5.ÍË ³ö ÓÎ Ï·     *          " << endl;
+		cout << "        *        èœ å• æ        *          " << endl;
+		cout << "        *     1.å¼€ å§‹ æ¸¸ æˆ     *          " << endl;
+		cout << "        *     2.æ¸¸ æˆ ç© æ³•     *          " << endl;
+		cout << "        *     3.æ¸¸ æˆ å›¾ é‰´     *          " << endl;
+		cout << "        *     4.åˆ¶ ä½œ äºº å‘˜     *          " << endl;
+		cout << "        *     5.é€€ å‡º æ¸¸ æˆ     *          " << endl;
 		cout << "        *************************          " << endl;
-		cout << "ÊäÈëÄãµÄÑ¡Ôñ:";
-		cin >> choice;
+		cout << "è¾“å…¥ä½ çš„é€‰æ‹©:";
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(999, '\n');
+		}
+		cin>>choice;
 		system("cls");
 		switch (choice)
 		{
 		case 1:
-			MY.Name();
+			PLAYER.Name();
 			return 1;
 		case 2:
-			cout << "ÓÎÏ·Íæ·¨:  ´ı²¹³ä       " << endl;
+			cout << "æ¸¸æˆç©æ³•:  å¾…è¡¥å……       " << endl;
 			break;
 		case 3:
-			cout << "ÓÎÏ·Í¼¼ø:  ´ı²¹³ä       " << endl;
+			cout << "æ¸¸æˆå›¾é‰´:  å¾…è¡¥å……       " << endl;
 			break;
 		case 4:
-			cout << "     ÖÆ ×÷ ÈË Ô±       " << endl;
+			cout << "     åˆ¶ ä½œ äºº å‘˜       " << endl;
 			cout << "     CannonBox       \n" << endl;
 			cout << "     Version:1.2.0       " << endl;
 			break;
 		case 5:
 			return 5;
 		default:
-			cout << "Ã»ÓĞÕâ¸öÑ¡Ïî!" << endl;
+			cout << "æ²¡æœ‰è¿™ä¸ªé€‰é¡¹!" << endl;
 
 		}
-		cout << "°´ÈÎÒâ¼ü·µ»Ø²Ëµ¥À¸       " << endl;
+		cout << "æŒ‰ä»»æ„é”®è¿”å›èœå•æ        " << endl;
 		system("pause");
 		system("cls");
-	} while (choice != 1 || choice != 5);
+	} while ((choice != 1)||(choice != 5)||cin.fail());
 	return choice;
 }
 
-void Hero:: Name(void) //Íæ¼ÒÎª½ÇÉ«È¡Ãû
+//ç©å®¶ä¸ºè§’è‰²å–å
+void Hero:: Name(void) 
 {
-	cout << "ÎªÄãµÄ½ÇÉ«È¡¸öÃû×Ö(ÖÁ¶à7¸ö×Ö·û):\n";
+	cout << "ä¸ºä½ çš„è§’è‰²å–ä¸ªåå­—(è‡³å¤š7ä¸ªå­—ç¬¦):\n";
 	cin.ignore();
 	getline(cin,name);
 	while (name.length() > 7)
 	{
-		cout << "ÄãµÄÃû³ÆÌ«³¤ÁË!ÔÙÈ¡Ò»¸ö°É:\n";
+		cout << "ä½ çš„åç§°å¤ªé•¿äº†!å†å–ä¸€ä¸ªå§:\n";
 		getline(cin, name);
 	}
 }
 
-void Hero:: Com_act(Hero& MY_ACT) //µçÄÔËæ»ú¾ö¶¨ĞĞ¶¯
+//ç”µè„‘éšæœºå†³å®šè¡ŒåŠ¨
+void Hero::Com_act(Hero& PLAYER_ACT) 
 {
-	++power;
-	srand((unsigned)time(NULL));
-	if (Round > 1)
+
+	if (Round == 1)
+	{
+		++power;
+	}
+	else
 	{
 		do {
 			do {
-				act = Number_to_action(rand() % 7 + 1);
-			} while ((MY_ACT.power < 5 && act.num == def) || (pra_time < 3 && act.num == rep));
-
-			if (power == 0)
+				act = Number_to_action(e() % 7 + 1);
+			} while ((PLAYER_ACT.power < 5 && act.num == def) || (pra < 3 && act.num == rep));
+			
+			//è‹¥ç”µè„‘power>=4ï¼Œç”µè„‘ ç¥ˆç¥· æ¦‚ç‡éš ç”µè„‘life å‡å°è€Œå¢å¤§	
+			//è§¦å‘|ä¸Šå¸å·²æ­»|åï¼Œç”µè„‘ å¿æ‚”æ¦‚ç‡ä¸º1/2
+			if (power >= 4)                              
 			{
-				if (rand() % 3 != 0)
+				if (e() % life == 0 && pra < 3)
 				{
-					act = Rec;
+					act = act_inf.Pra;
+				}
+				else if (e() % 2 == 0 && pra >= 3)
+				{
+					act = act_inf.Rep;
+				}
+			}
+
+			//è‹¥ç”µè„‘power>=5ï¼Œç”µè„‘ æ–©æ€ æ¦‚ç‡éš ç©å®¶life å‡å°è€Œå¢å¤§ï¼Œæœ€å¤§1/2
+			if (power >= 5)                        
+			{
+				if (e() % PLAYER_ACT.life != 0)
+				{
+					act = act_inf.Kil;
+				}
+			}
+
+			//è‹¥ç©å®¶power>=5,ç”µè„‘1/4æ¦‚ç‡ é˜²å¾¡
+			if (PLAYER_ACT.power >= 5)      
+			{
+				if (e() % 4 == 0)
+				{
+					act = act_inf.Def;
+				}
+			}
+
+			//è‹¥powerä¸º0ï¼Œç”µè„‘ æ¢å¤/é—ªé¿=2/1
+			if (power == 0)                
+			{
+				if (e() % 3 != 0)
+				{
+					act = act_inf.Rec;
 				}
 				else
 				{
-					act = Dod;
-				}
-			}
-
-			if (power >= 4)
-			{
-				if (rand() % life == 0 && pra_time < 3)
-				{
-					act = Pra;
-				}
-				else if (rand() % 2 == 0 && pra_time >= 3)
-				{
-					act = Rep;
-				}
-			}
-
-			if (power >= 5)
-			{
-				if (rand() % MY_ACT.life != 0)
-				{
-					act = Kil;
-				}
-			}
-
-			if (MY_ACT.power >= 5)
-			{
-				if (rand() % 4 == 0)
-				{
-					act = Def;
+					act = act_inf.Dod;
 				}
 			}
 		} while (power + act.POW < 0);
 		power += act.POW;
 	}
-	if (act.num == pra)
-	{
-		++pra_time;
-	}
+	++act.time;                  //å¢åŠ ç›¸åº”è¡Œä¸ºæ¬¡æ•°
+	pra += act.pray;        //å¢åŠ ä¿¡ä»°å€¼
 }
 
-void Hero:: My_act() //Íæ¼Ò¾ö²ßĞĞ¶¯
+//ç©å®¶å†³ç­–è¡ŒåŠ¨
+void Hero:: Player_act() 
 {
-	int temp_act;
-	cin >> temp_act;
-	while ((temp_act > 6) || (temp_act < 1))
+	cout << "è¯·è¾“å…¥ä½ çš„è¡ŒåŠ¨:";
+	unsigned int temp_act;
+	cin>>temp_act;
+	while ((temp_act < 1) || (temp_act > 6) || cin.fail())
 	{
-		cout << "ĞĞÎªÎŞĞ§,ÇëÖØĞÂ¾ö²ß:";
-		cin >> temp_act;
+		cout << "\nè¡Œä¸ºæ— æ•ˆ,è¯·é‡æ–°å†³ç­–:";
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(999,'\n');
+		}
+		cin>>temp_act;
+
 	}
-	while (power + Number_to_action(temp_act).POW < 0)
+	while ((power + Number_to_action(temp_act).POW < 0 )||cin.fail())
 	{
-		cout << "ÄÜÁ¿²»×ã,ÇëÖØĞÂ¾ö²ß:";
+		cout << "èƒ½é‡ä¸è¶³,è¯·é‡æ–°å†³ç­–:";
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(999,'\n');
+		}
 		cin >> temp_act;
+		
 	}
 	if (temp_act == 6)
 	{
-		if (pra_time >= 3)
+		if (pra >= 3)
 			temp_act = 7;
 		else
 		{
-			++pra_time;
+			++pra;
 		}
 	}
 	act = Number_to_action(temp_act);
+	++act.time;
 	power += act.POW;
 }
 
-Action& Hero:: Number_to_action(int number)
+//æ ¹æ®æ•°å­—è¿”å›è¡Œä¸º
+Action& Hero:: Number_to_action(int&& number)
 {
 	switch (number)
 	{
-	case 1:return Rec;
-	case 2:return Dod;
-	case 3:return Def;
-	case 4:return Hit;
-	case 5:return Kil;
-	case 6:return Pra;
-	case 7:return Rep;
-	default:return Rec;
+	case 1:return act_inf.Rec;
+	case 2:return act_inf.Dod;
+	case 3:return act_inf.Def;
+	case 4:return act_inf.Hit;
+	case 5:return act_inf.Kil;
+	case 6:return act_inf.Pra;
+	case 7:return act_inf.Rep;
+	default:return act_inf.Rec;
 	}
 }
 
-void Hero:: Face(void) //´òÓ¡½çÃæ
+//æ‰“å°ç•Œé¢
+void Hero:: Face(void) 
 {
 	cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
-	cout << "µÚ" << Whole << "¾Ö|µÚ" << Round << "»ØºÏ" << endl;
-	cout << "1.»Ö ¸´  2.ÉÁ ±Ü  3.·À Óù" << endl
-		<< "4.¹¥ »÷  5.Õ¶ É±  ";
-	if (pra_time < 3)
+	cout << "ç¬¬" << Whole << "å±€|ç¬¬" << Round << "å›åˆ" << endl;
+	cout << "1.æ¢ å¤  2.é—ª é¿  3.é˜² å¾¡" << endl
+		<< "4.æ”» å‡»  5.æ–© æ€  ";
+	if (pra < 3)
 	{
-		cout << "6.Æí µ»" << endl;
+		cout << "6.ç¥ˆ ç¥·" << endl;
 	}
 	else
 	{
-		cout << "6.âã »Ú" << endl;
+		cout << "6.å¿ æ‚”" << endl;
 	}
-	cout << "ÇëÊäÈëÄãµÄĞĞ¶¯:";
-	My_act();
-	cout << "\nÍæ¼Ò\t\tÉúÃü\t\tĞĞÎª\t\tÄÜÁ¿\t\t±©»÷ÂÊ\t\tÊ¤ÂÊ\n";
 }
 
-int Hero:: Life(Hero& MY_LIFE) //ÅĞ¶ÏÉúÃüÔö¼õ,²¢·µ»ØÉËº¦Öµ
+//åˆ¤æ–­ç”Ÿå‘½å¢å‡,å¹¶è¿”å›ä¼¤å®³å€¼
+int Hero:: Life(Hero& PLAYER_LIFE) 
 {
-	srand((unsigned)time(NULL));
 	unsigned int hurt = 0;
-	int situation= act.num * 10 + MY_LIFE.act.num;
-	//¸ù¾İÇé¿öÖµ½øĞĞ·ÖÀà
+	int situation= act.num * 10 + PLAYER_LIFE.act.num;
+	//æ ¹æ®æƒ…å†µå€¼è¿›è¡Œåˆ†ç±»
 	switch (situation)
 	{
 	case 74:
-		crit_plus = rand() % 6 + 10;
+		crit_plus = e() % 6 + 10;
 	case 14:
 		hurt = 1;
-		if ((rand() % 100 + 1) <= MY_LIFE.crit_rate)
+		if ((e() % 100 + 1) <= PLAYER_LIFE.crit_rate)
 		{
 			hurt = 2;
-			MY_LIFE.crit_checker = 2;
+			PLAYER_LIFE.crit_checker = 2;
 		}
 		goto COM_HURT;
 	case 75:
-		crit_plus = rand() % 6 + 10;
+		crit_plus = e() % 6 + 10;
 	case 15:
 	case 25:
 	case 45:
 		hurt = 1;
-		if ((rand() % 100 + 1) <= MY_LIFE.crit_rate)
+		if ((e() % 100 + 1) <= PLAYER_LIFE.crit_rate)
 		{
-			if ((hurt = rand() % 2 + 2) > 1)
+			if ((hurt = e() % 2 + 2) > 1)
 			{
-				MY_LIFE.crit_checker = 2;
+				PLAYER_LIFE.crit_checker = 2;
 				if (hurt > 2)
 				{
-					MY_LIFE.crit_checker = 3;
+					PLAYER_LIFE.crit_checker = 3;
 				}
 			}
 		}
 		goto COM_HURT;
 	case 35:
 		hurt = 0;
-		crit_plus = rand() % 4 + 3;
+		crit_plus = e() % 4 + 3;
 		goto COM_HURT;
 	case 66:
-		MY_LIFE.crit_plus = rand() % 6 + 3;
-		MY_LIFE.crit_rate += MY_LIFE.crit_plus;
-		++MY_LIFE.life;
+		PLAYER_LIFE.crit_plus = e() % 6 + 3;
+		PLAYER_LIFE.crit_rate += PLAYER_LIFE.crit_plus;
+		++PLAYER_LIFE.life;
 	case 61:
 	case 62:
 	case 63:
 	case 64:
 		hurt = -1;
-		crit_plus = rand() % 6 + 3;
+		crit_plus = e() % 6 + 3;
 		goto COM_HURT;
 	case 65:
 		hurt = 0;
-		crit_plus = rand() % 6 + 3;
+		crit_plus = e() % 6 + 3;
 		goto COM_HURT;
 	case 71:
 	case 72:
 	case 73:
-		crit_plus = rand() % 6 + 10;
+		crit_plus = e() % 6 + 10;
 		goto COM_HURT;
 
 	COM_HURT:
@@ -274,58 +309,58 @@ int Hero:: Life(Hero& MY_LIFE) //ÅĞ¶ÏÉúÃüÔö¼õ,²¢·µ»ØÉËº¦Öµ
 		break;
 
 	case 47:
-		crit_plus = rand() % 6 + 10;
+		crit_plus = e() % 6 + 10;
 	case 41:
 		hurt = 1;
-		if ((rand() % 100 + 1) <= crit_rate)
+		if ((e() % 100 + 1) <= crit_rate)
 		{
 			hurt = 2;
 			crit_checker = 2;
 		}
 		goto MY_HURT;
 	case 57:
-		MY_LIFE.crit_plus = rand() % 6 + 10;
+		PLAYER_LIFE.crit_plus = e() % 6 + 10;
 	case 51:
 	case 52:
 	case 54:
 		hurt = 1;
-		if ((rand() % 100 + 1) <= crit_rate)
+		if ((e() % 100 + 1) <= crit_rate)
 		{
-			if ((hurt = rand() % 2 + 2) > 1)
+			if ((hurt = e() % 2 + 2) > 1)
 			{
 				crit_checker = 2;
 				if (hurt > 2)
 				{
-					MY_LIFE.crit_checker = 3;
+					PLAYER_LIFE.crit_checker = 3;
 				}
 			}
 		}
 		goto MY_HURT;
 	case 53:
 		hurt = 0;
-		MY_LIFE.crit_plus = rand() % 6 + 3;
+		PLAYER_LIFE.crit_plus = e() % 6 + 3;
 		goto MY_HURT;
 	case 16:
 	case 26:
 	case 36:
 	case 46:
 		hurt = -1;
-		MY_LIFE.crit_plus = rand() % 6 + 3;
+		PLAYER_LIFE.crit_plus = e() % 6 + 3;
 		goto MY_HURT;
 	case 56:
 		hurt = 0;
-		MY_LIFE.crit_plus = rand() % 6 + 3;
+		PLAYER_LIFE.crit_plus = e() % 6 + 3;
 		goto MY_HURT;
 	case 17:
 	case 27:
 	case 37:
 		hurt = 0;
-		MY_LIFE.crit_plus = rand() % 6 + 10;
+		PLAYER_LIFE.crit_plus = e() % 6 + 10;
 		goto MY_HURT;
 
 	MY_HURT:
-		MY_LIFE.crit_rate += MY_LIFE.crit_plus;
-		MY_LIFE.life -= hurt;
+		PLAYER_LIFE.crit_rate += PLAYER_LIFE.crit_plus;
+		PLAYER_LIFE.life -= hurt;
 		break;
 
 	default:
@@ -335,13 +370,14 @@ int Hero:: Life(Hero& MY_LIFE) //ÅĞ¶ÏÉúÃüÔö¼õ,²¢·µ»ØÉËº¦Öµ
 	return hurt;
 }
 
-void Hero:: Win_rate(Hero& MY_WIN) //¼ÆËã³ÉÔ±Ê¤ÂÊ
+//è®¡ç®—æˆå‘˜èƒœç‡
+void Hero:: Win_rate(Hero& PLAYER_WIN) 
 {
 	if (life <= 0)
 	{
 		++win_round;
 	}
-	MY_WIN.win_rate = win_round / Whole * 100;
+	PLAYER_WIN.win_rate = win_round / Whole * 100;
 	if (Whole - win_round <= 0)
 	{
 		win_rate = 0;
@@ -352,7 +388,8 @@ void Hero:: Win_rate(Hero& MY_WIN) //¼ÆËã³ÉÔ±Ê¤ÂÊ
 	}
 }
 
-void Hero:: Inf(void) //´òÓ¡µçÄÔºÍÍæ¼ÒµÄĞÅÏ¢
+//æ‰“å°ç”µè„‘å’Œç©å®¶çš„ä¿¡æ¯
+void Hero:: Inf(void) 
 {
 	cout << name << "\t\t";
 	for (int i = 0; i < life && life > 0; i++)
@@ -369,60 +406,54 @@ void Hero:: Inf(void) //´òÓ¡µçÄÔºÍÍæ¼ÒµÄĞÅÏ¢
 		<< "\t\t" << fixed << setprecision(2) << win_rate << "%" << endl;
 }
 
-void Hero:: Note(void) //ÔÚÅÔÊä³öÌØÊâÇé¿ö
+//åœ¨æ—è¾“å‡ºç‰¹æ®Šæƒ…å†µ
+void Hero:: Note(void) 
 {
-	bool rep_note = true;
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
 	cout << "\n";
 
-	if (crit_checker) //Èô³ÉÔ±Ôì³É±©»÷,Ôò´òÓ¡±©»÷Çé¿ö
+	if (crit_checker) //è‹¥æˆå‘˜é€ æˆæš´å‡»,åˆ™æ‰“å°æš´å‡»æƒ…å†µ
 	{
-		cout << name << "Ôì³ÉÁË±©»÷!,Ôì³ÉÁË" << crit_checker << "µãÉËº¦" << endl;
+		cout << name << "é€ æˆäº†æš´å‡»!,é€ æˆäº†" << crit_checker << "ç‚¹ä¼¤å®³" << endl;
 		crit_checker = 0;
 	}
 
 	if (act.num == pra)
 	{
-		cout << name << "½øĞĞÁËò¯³ÏµÄ\'Æí µ»\',ÉúÃü + 1,±©»÷ÂÊ + " << crit_plus << "%!" << endl;
+		cout << name << "è¿›è¡Œäº†è™”è¯šçš„\'ç¥ˆ ç¥·\',ç”Ÿå‘½ + 1,æš´å‡»ç‡ + " << crit_plus << "%!" << endl;
 	}
 
 	if (act.num == rep)
 	{
-		cout << name << "½øĞĞÁËò¯³ÏµÄ\'âã »Ú\',±©»÷ÂÊ + " << crit_plus << "%!" << endl;
+		cout << name << "è¿›è¡Œäº†è™”è¯šçš„\'å¿ æ‚”\',æš´å‡»ç‡ + " << crit_plus << "%!" << endl;
 	}
 
-	if (pra_time == 3 && rep_note)
+	if (pra == 3 && rep_note)
 	{
-		cout << "|ÉÏ µÛ ÒÑ ËÀ|," << name << "´¥ ·¢ \'|âã »Ú|\'" << endl;
+		cout << "|ä¸Š å¸ å·² æ­»|," << name << "è§¦ å‘ \'|å¿ æ‚”|\'" << endl;
 		rep_note = false;
 	}
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 }
 
+//ä¸€å±€æ¸¸æˆç»“æŸåçš„å¼¹çª—
 int Hero:: Again(void)
 {
 	int again;
 	if (life > 0)
 	{
-		MessageBox(NULL, (LPCTSTR)TEXT("Äã±»¼ÆËã»ú´ò°ÜÁË£¡"), (LPCTSTR)TEXT("Ê¤¸ºÒÑ·Ö"), MB_OK);
+		MessageBox(NULL, (LPCTSTR)TEXT("ä½ è¢«è®¡ç®—æœºæ‰“è´¥äº†ï¼"), (LPCTSTR)TEXT("èƒœè´Ÿå·²åˆ†"), MB_OK);
 	}
 	else
 	{
-		MessageBox(NULL, (LPCTSTR)TEXT("¹§Ï²Äã´ò°ÜÁË¼ÆËã»ú"), (LPCTSTR)TEXT("Ê¤¸ºÒÑ·Ö"), MB_OK);
+		MessageBox(NULL, (LPCTSTR)TEXT("æ­å–œä½ æ‰“è´¥äº†è®¡ç®—æœº"), (LPCTSTR)TEXT("èƒœè´Ÿå·²åˆ†"), MB_OK);
 	}
-	again = MessageBox(NULL, (LPCTSTR)TEXT("»¹ÏëÔÙÀ´Ò»¾Ö£¿"), (LPCTSTR)TEXT("Ê¤¸ºÒÑ·Ö"), MB_YESNO);
+	again = MessageBox(NULL, (LPCTSTR)TEXT("è¿˜æƒ³å†æ¥ä¸€å±€ï¼Ÿ"), (LPCTSTR)TEXT("èƒœè´Ÿå·²åˆ†"), MB_YESNO);
 	return again;
 }
 
-void Hero:: First(void) //½øĞĞ³õÊ¼»¯
+void Hero:: First(void)
 {
-	life = 3;
-	act = Rec;
-	power = 0;
-	crit_rate = 5;
-	crit_checker = 0;
-	crit_plus = 0;
-	win_rate = 0;
-	pra_time = 0;
-	rep_note = true;
+	*this = First_hero;
+	win_round=0.0;
 }

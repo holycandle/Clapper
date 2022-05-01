@@ -1,4 +1,4 @@
-//½á¹¹¡¢º¯ÊıÔ­ĞÎ
+//ç»“æ„ã€å‡½æ•°åŸå½¢
 #ifndef DEFINE_H
 #define DEFINE_H
 #include <string>
@@ -13,62 +13,92 @@ typedef enum
 	pra,
 	rep
 } Act;
-//ËùÓĞĞĞÎªÖÖÀà
+//æ‰€æœ‰è¡Œä¸ºç§ç±»
 
-struct Action    //ĞĞÎªµÄÊôĞÔ
+struct Action            //è¡Œä¸ºçš„å±æ€§
 {
-	string name;   //ĞĞÎªÃû³Æ
-	Act num;       //ĞĞÎªÊıÖµ
-	unsigned int DFS;    //·ÀÓùÁ¦
-	int ATK;             //¹¥»÷Á¦
-	int POW;             //ºÄÄÜÖµ
-	int LIF;             //ÖÎÓúÁ¦
-	bool real_atk;       //ÊÇ·ñÎªÕæÊµÉËº¦
-	int crit_rate;       //¶Ô±¬»÷ÂÊµÄÓ°Ïì
-	int pra_time;        //¶ÔĞÅÑöÖµµÄÓ°Ïì
-	
+	unsigned int time;   //è¡Œä¸ºæ¬¡æ•°
+	string name;         //è¡Œä¸ºåç§°
+	Act num;             //è¡Œä¸ºæ•°å€¼
+	unsigned int DFS;    //é˜²å¾¡åŠ›
+	int ATK;             //æ”»å‡»åŠ›
+	int POW;             //è€—èƒ½å€¼
+	int LIF;             //æ²»æ„ˆåŠ›
+	bool real_atk;       //æ˜¯å¦ä¸ºçœŸå®ä¼¤å®³
+	int crit_rate;       //å¯¹çˆ†å‡»ç‡çš„å½±å“
+	int pray;            //è™”è¯šåº¦
 };
-static Action Rec = { "»Ö¸´",rec,0,0,1,0,false,0,0 };
-static Action Dod = { "ÉÁ±Ü",dod,1,0,0,0,false,0,0 };
-static Action Def = { "·ÀÓù",def,5,0,0,0,false,0,0 };
-static Action Hit = { "¹¥»÷",hit,0,1,-1,0,false,0,0 };
-static Action Kil = { "Õ¶É±",kil,0,1,-5,0,true,0,0 };
-static Action Pra = { "Æíµ»",pra,1,0,-4,1,false,0,1 };
-static Action Rep = { "âã»Ú",rep,1,0,-4,0,false,0,1 };
+struct Action_inf
+{
+	Action Rec = { 0,"æ¢å¤",rec,0,0,1,0,false,0,0 };
+	Action Dod = { 0,"é—ªé¿",dod,1,0,0,0,false,0,0 };
+	Action Def = { 0,"é˜²å¾¡",def,5,0,-1,0,false,0,0 };
+	Action Hit = { 0,"æ”»å‡»",hit,0,1,-1,0,false,0,0 };
+	Action Kil = { 0,"æ–©æ€",kil,0,1,-5,0,true,0,0 };
+	Action Pra = { 0,"ç¥ˆç¥·",pra,1,0,-4,1,false,0,1 };
+	Action Rep = { 0,"å¿æ‚”",rep,1,0,-4,0,false,0,1 };
 
+	Action_inf& operator=(Action_inf& a)
+	{
+		Rec = a.Rec;
+		Dod = a.Dod;
+		Def = a.Def;
+		Hit = a.Hit;
+		Kil = a.Kil;
+		Pra = a.Pra;
+		Rep = a.Rep;
+		return *this;
+	}
+};
 
 class Hero
 {
 private:
-	string name;           //³ÉÔ±Ãû³Æ
-	int life;              //³ÉÔ±µÄÉúÃüÖµ
-	Action act;            //³ÉÔ±µÄĞĞÎª
-	int power;             //³ÉÔ±¾ßÓĞµÄÄÜÁ¿
-	int crit_rate;         //³ÉÔ±µÄ±©»÷ÂÊ
-	int crit_checker;      //¼ì²é³ÉÔ±Ê±·ñ±©»÷,ÒÔ±©»÷ÉËº¦³ÊÏÖ
-	int crit_plus;         //¼ÇÂ¼³ÉÔ±Ã¿´ÎÔö¼ÓµÄ±©»÷ÂÊ
-	float win_rate;        //³ÉÔ±µÄÊ¤ÂÊ
-	unsigned int pra_time; //¼ÇÂ¼³ÉÔ±µÄÆíµ»´ÎÊı
-	bool rep_note;         //ÅĞ¶ÏÊÇ·ñÒÑ¾­´¥·¢|ÉÏµÛÒÑËÀ|
+	string name;           //æˆå‘˜åç§°
+	Action act;            //æˆå‘˜çš„å½“å‰è¡Œä¸º
+	Action_inf act_inf;    //æˆå‘˜çš„æ‰€æœ‰è¡Œä¸ºæ¡£æ¡ˆ
+	int life;              //æˆå‘˜çš„ç”Ÿå‘½å€¼
+	int power;             //æˆå‘˜å…·æœ‰çš„èƒ½é‡
+	int crit_rate;         //æˆå‘˜çš„æš´å‡»ç‡
+	int crit_checker;      //æ£€æŸ¥æˆå‘˜æ—¶å¦æš´å‡»,ä»¥æš´å‡»ä¼¤å®³å‘ˆç°
+	int crit_plus;         //è®°å½•æˆå‘˜æ¯æ¬¡å¢åŠ çš„æš´å‡»ç‡
+	float win_rate;        //æˆå‘˜çš„èƒœç‡
+	unsigned int pra;      //è®°å½•æˆå‘˜çš„ç¥ˆç¥·æ¬¡æ•°
+	bool rep_note;         //åˆ¤æ–­æ˜¯å¦å·²ç»è§¦å‘|ä¸Šå¸å·²æ­»|
+	
 public:
-	Hero(string _name="/0", int _life=3, Action& _act=Rec, int _power=0, int _crit_rate=5, int _crit_checker=0,
+	Hero(string _name,Action& _act, Action_inf& _act_inf, int _life=3, int _power=0, int _crit_rate=5, int _crit_checker=0,
 		int _crit_plus=0, float _win_rate=0, unsigned int _pra_time=0, bool _rep_note=true);
 	bool Ending(Hero& MY)
 	{
 		return(life > 0 && MY.life > 0);
 	};
 	void Name(void);
-	void Com_act(Hero& MY_ACT);
-	Action& Number_to_action(int number);
-	void My_act(void);
 	void Face(void);
+	void Com_act(Hero& MY_ACT);
+	Action& Number_to_action(int&& number);
+	void Player_act(void);
 	int Life(Hero &MY_LIFE);
 	void Win_rate(Hero& MY_WIN);
 	void Inf(void);
 	void Note(void);
 	int Again(void);
 	void First(void);
-	//º¯ÊıÉùÃ÷
+	
+	//å‡½æ•°å£°æ˜
+	Hero& operator=(Hero& a)
+	{
+		act = a.act;
+		act_inf = a.act_inf;
+		life = a.life;
+		power = a.power;
+		crit_rate = a.crit_rate;
+		crit_checker = a.crit_checker;
+		crit_plus = a.crit_plus;
+		pra = a.pra;
+		rep_note = a.rep_note;
+		return *this;
+	}
 };
 
 int Menu(void);
