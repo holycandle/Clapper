@@ -1,25 +1,17 @@
 # ***Clapper***
 
 ## 项目介绍
-* 一个由 **C++** 编写的小游戏    
-* 名于clap，源于生活    
-* **Gitee** 与 **Github** 同步更新中     
-[查看 **Github** 上的 ***Clapper*** ](https://github.com/2624498362/Clapper)    
-[查看 **Gitee** 上的 ***Clapper*** ](https://gitee.com/holycandle/clapper)   
-* 已发布在 **itch.io** 上    
-[查看 **itch.io** 上的 ***Clapper*** ](https://holycandle.itch.io/clapper)   
+* 一个由 **C++** 编写的小游戏               
+[ **Gitee** 上的 ***Clapper*** ](https://gitee.com/holycandle/clapper)      
+[ **itch.io** 上的 ***Clapper*** ](https://holycandle.itch.io/clapper)   
 
 
-## 使用说明
-* ***Clapper*** 文件夹有可执行文件(.exe)、VS项目文件(.sln)、具体源代码(.cpp)以及头文件(.h)    
-* 体验游戏 **~~bug~~** 请下载 **发行版**     
-  或在 **itch.io** 下载:[查看 **itch.io** 上的 ***Clapper*** ](https://holycandle.itch.io/clapper)   
-* 欢迎提出建议与修改
+## 源码说明
+* ***Clapper*** 含可执行文件(.exe)、VS项目文件(.sln)、具体源代码(.cpp)以及头文件(.h)      
 
 ## 更新日志
 ### Version 1.0.0
-* 最初版本，由 **C语言** 编写
-* ***ATRI——My Dear Moments***    
+* 最初版本，由 **C语言** 编写 
 
 ### Version 1.1.0
 * 增加新行为：**“祈祷”** 、 **“忏悔”**     
@@ -63,3 +55,5 @@
 * 游戏中只显示当前一局信息，更加清晰
 * 修复了 **祈祷**  **旁白** 不显示的bug
 * 修复了 **胜率** 显示异常的bug
+
+[ ***Clapper-Pyhton*** ](https://github.com/2624498362/Clapper-Pyhton)  
